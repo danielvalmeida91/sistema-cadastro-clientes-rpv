@@ -8,10 +8,10 @@ const DEFAULT_MESSAGE_RULE = "Campo obrigatório."
 
 const regras = z.object({
         nome: z.string().min(1, DEFAULT_MESSAGE_RULE),
-        email: z.email(),
+        email: z.email(DEFAULT_MESSAGE_RULE),
         // cpfcnpj: z.string().min(1, DEFAULT_MESSAGE_RULE).max(14, "Limite de 14 caracteres"),
         // sexo: z.string().min(1, DEFAULT_MESSAGE_RULE).max(1, "Limite de 1 caracteres."),
-        // cep: z.string().min(1, DEFAULT_MESSAGE_RULE).max(9, "Cep inválido."),
+        cep: z.string().min(1, DEFAULT_MESSAGE_RULE).max(9, "Cep inválido."),
         // rua: z.string().min(1, DEFAULT_MESSAGE_RULE),
         // bairro: z.string().min(1, DEFAULT_MESSAGE_RULE),
         // cidade: z.string().min(1, DEFAULT_MESSAGE_RULE),
@@ -36,32 +36,45 @@ export default function CadastrarClientes() {
     }
     // console.log('Error', errors)
 
+    async function buscaCep(){
+        const busca = await fetch('https://viacep.com.br/ws/36770066/json/')
+        const response = await busca.json()
+        console.log('response', response)
+    }
+
+    // xs > 12 colunas
+    // sm > 6 colunas
+    // md > qtd recebida por propriedade
+
     return(
         <>
             <h1 className='text-center'>Cadastrar Cliente</h1>
             <div className='w-full flex items-center justify-center'>
-                <form onSubmit={handleSubmit(onSubmit)} noValidate className='grid grid-cols-12'>
-                    {/* <div className='relative col-span-12 flex flex-col'>
-                        <label>Nome<span className='text-red-500'>*</span>: </label>
-                        <input {...register('nome')} className='border rounded-md px-2 py-1 text-zinc-100'/>
-                        <span className='absolute top-16 text-xs text-red-500'>{errors.nome?.message}</span>
-                    </div> */}
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className='grid grid-cols-12 space-y-6 space-x-2'>
                     <Input 
                         errors={errors}
                         label='Nome'
                         name='nome'
                         register={register}
                         required
-                        size={12}
+                        size={8}
                     />
-                    <InputCallback
+                    <Input 
                         errors={errors}
                         label='Email'
                         name='email'
                         register={register}
                         required
+                        size={4}
+                    />
+                    <InputCallback
+                        errors={errors}
+                        label='Cep'
+                        name='cep'
+                        register={register}
+                        required
                         size={12}
-                        funcaoParaSerMostrada={() => console.log('EU SOU A CALLBACK FUNCTION')}
+                        funcaoParaSerMostrada={buscaCep}
                     />
                     <button className='mt-10'>Enviar</button>
                 </form>
