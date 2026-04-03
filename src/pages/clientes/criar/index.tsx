@@ -48,8 +48,6 @@ export default function CadastrarClientes() {
     })
 
     async function onSubmit(data: FormType){
-        console.log('DATA DENTRO DO ONSUBMIT', data)
-
         const response = await fetch('/api/create/clientes', {
             method: "POST",
             headers: {
