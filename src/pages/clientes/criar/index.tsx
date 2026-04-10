@@ -2,6 +2,7 @@ import { Input } from '@/components/Input'
 import { InputCallback } from '@/components/InputCallback'
 import { InputMask } from '@/components/InputMask'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -33,6 +34,7 @@ const regras = z.object({
     export type FormType = z.infer<typeof regras>
 
 export default function CadastrarClientes() {
+    const [showModal, setShowModal] = useState(false)
     const {
         handleSubmit,
         register,
@@ -197,6 +199,13 @@ export default function CadastrarClientes() {
                     </div>
                 </form>
             </div>
+            {/* Desenvolver o Modal de Finalização do Cadastro, que deve conter as seguintes etapas:
+                1. Criar um estado para controlar a visibilidade do modal (showModal).
+                2. Criar uma função para abrir o modal (openModal) e outra para fechar o modal (closeModal).
+                3. Criar um componente Modal que receba as funções de abrir e fechar, além de uma mensagem de confirmação.
+                4. No onSubmit, ao finalizar o envio das informações, abrir o modal de confirmação com uma mensagem de sucesso ou erro, dependendo do resultado da requisição.
+            */}
+            { true && <div className='bg-red-500/10 w-full h-screen z-30 fixed top-0 left-0 flex items-center justify-center'>MOSTRA MODAL</div> }
         </>
     )
 }
